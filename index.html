@@ -1,0 +1,198 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Will you marry me?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #0f172a;
+      --bg2: #512b6a;
+      --accent: #ff6b81;
+      --accent2: #ffd166;
+      --glass: rgba(255,255,255,0.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 500px at 10% 20%, #1b2438 0%, transparent 20%),
+                  radial-gradient(900px 400px at 90% 80%, rgba(81,43,106,0.18) 0%, transparent 20%),
+                  linear-gradient(160deg,var(--bg1), var(--bg2));
+      display:flex;align-items:center;justify-content:center;padding:32px;
+      color:#fff;
+    }/* Card wrapper */
+.card-wrap{
+  width:min(920px,96%);
+  display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;
+}
+
+/* Main panel */
+.panel{
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border-radius:20px;padding:32px;box-shadow: 0 10px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter: blur(6px);
+}
+
+.left{
+  padding:40px;position:relative;overflow:hidden;
+}
+
+.ring{
+  position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:conic-gradient(from 120deg,var(--accent), rgba(255,255,255,0.03));filter:blur(30px);opacity:0.9;transform:scale(1.05);
+}
+
+h1{
+  margin:0 0 10px 0;font-family:'Great Vibes', cursive;font-size:64px;letter-spacing:1px;color:var(--accent);
+  text-shadow: 0 6px 18px rgba(255,107,129,0.12);
+}
+p.lead{margin:0 0 22px 0;font-size:18px;color:rgba(255,255,255,0.9)}
+
+.heart{
+  width:120px;height:120px;margin:18px 0 26px;display:flex;align-items:center;justify-content:center;position:relative;left:-6px
+}
+.heart svg{width:100%;height:100%;filter:drop-shadow(0 8px 30px rgba(255,107,129,0.15));}
+
+/* Buttons and reveal using checkbox hack */
+.actions{display:flex;gap:12px}
+.btn{
+  appearance:none;border:0;padding:12px 18px;border-radius:12px;font-weight:600;cursor:pointer;min-width:110px;text-align:center;
+  transition:transform .18s ease, box-shadow .18s ease;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.5);
+}
+.btn:active{transform:translateY(2px)}
+.btn-yes{
+  background:linear-gradient(135deg,var(--accent), #ff8aa3);color:white;box-shadow:0 10px 30px rgba(255,107,129,0.14);
+}
+.btn-no{
+  background:transparent;border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.9)
+}
+
+/* right panel - card */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:20px;padding:28px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden;
+  min-height:360px;
+}
+
+.card .name{font-family:'Great Vibes',cursive;font-size:40px;color:var(--accent2);margin-top:6px}
+.card .subtitle{font-weight:600;opacity:0.9}
+.small{font-size:13px;color:rgba(255,255,255,0.7)}
+
+/* Hidden checkbox to trigger confetti */
+input#accepted{display:none}
+input#accepted:checked ~ .card .confetti{opacity:1;pointer-events:auto}
+input#accepted:checked ~ .card .reply{transform:translateY(0);opacity:1}
+input#accepted:checked ~ .card .yes-badge{transform:scale(1);opacity:1}
+
+/* reply message slide */
+.reply{transform:translateY(18px);opacity:0;transition:all .6s cubic-bezier(.2,.9,.3,1)}
+.yes-badge{width:160px;height:160px;border-radius:50%;display:grid;place-items:center;font-size:24px;font-weight:700;background:radial-gradient(circle at 30% 20%, #fff6e5, #ffd166);color:#6b2f17;box-shadow:0 20px 50px rgba(255,209,102,0.12);transform:scale(0.86);opacity:0;transition:all .6s cubic-bezier(.2,.9,.3,1)}
+
+/* Confetti (pure CSS) */
+.confetti{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .2s ease}
+.confetti::before,.confetti::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(transparent,transparent);}
+
+/* create many confetti pieces using box-shadow on pseudo elements */
+.confetti .piece{
+  position:absolute;left:50%;top:30%;width:6px;height:12px;border-radius:2px;transform-origin:center;animation:fall 1500ms ease-in forwards;
+  opacity:0.95
+}
+/* different colors and delays */
+.piece.c1{background:#ff6b81;box-shadow: -220px 260px #ff6b81, 160px 200px #ff6b81, -50px 360px #ff6b81;animation-delay:0}
+.piece.c2{background:#ffd166;box-shadow: -200px 300px #ffd166, 120px 180px #ffd166, 10px 280px #ffd166;animation-delay:120ms}
+.piece.c3{background:#9be7ff;box-shadow: -180px 260px #9be7ff, 200px 240px #9be7ff, 60px 340px #9be7ff;animation-delay:220ms}
+.piece.c4{background:#b9f18c;box-shadow: -160px 300px #b9f18c, 80px 200px #b9f18c, -90px 320px #b9f18c;animation-delay:320ms}
+
+@keyframes fall{
+  0%{transform: translateY(-20px) rotate(0deg) scaleY(1)}
+  60%{transform: translateY(260px) rotate(180deg) scaleY(0.9)}
+  100%{transform: translateY(520px) rotate(360deg) scaleY(1)}
+}
+
+/* small hearts floating */
+.float-hearts{position:absolute;left:18px;bottom:18px;display:flex;gap:8px}
+.float-hearts svg{width:34px;height:34px;opacity:0.9;animation:float 3.8s ease-in-out infinite}
+.float-hearts svg:nth-child(2){animation-delay:.4s}
+.float-hearts svg:nth-child(3){animation-delay:.9s}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+
+/* responsive */
+@media (max-width:880px){
+  .card-wrap{grid-template-columns:1fr;}
+  .heart{margin-left:0}
+  h1{font-size:48px}
+}
+
+  </style>
+</head>
+<body>
+  <div class="card-wrap">
+    <div class="panel left">
+      <div class="ring" aria-hidden></div>
+      <h1>Will you marry me?</h1>
+      <p class="lead">I've loved you through every small moment — would you make every moment from now on ours, forever?</p><div class="heart" aria-hidden>
+    <!-- Heart SVG -->
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 21s-7.5-4.9-9.5-8.1C-0.3 7.8 4.1 3 7.8 5.3 9.5 6.6 10 8.8 12 10.2c2-1.4 2.5-3.6 4.2-4.9 3.7-2.3 8.1 2.5 5.3 7.6C19.5 16.1 12 21 12 21z" fill="url(#g)"/>
+      <defs>
+        <linearGradient id="g" x1="0" x2="1">
+          <stop offset="0" stop-color="#ff8aa3"/>
+          <stop offset="1" stop-color="#ff6b81"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="actions">
+    <!-- Using label to toggle hidden checkbox -->
+    <label for="accepted" class="btn btn-yes">Yes, a thousand times</label>
+    <button class="btn btn-no" onclick="alert('It\'s okay — maybe later. 💙')">Maybe later</button>
+  </div>
+
+  <div style="margin-top:18px;font-size:13px;color:rgba(255,255,255,0.72)">Tip: Click the pink "Yes" button to reveal a little surprise.</div>
+</div>
+
+<!-- Hidden checkbox to control right panel (no JS required for the reveal) -->
+<input type="checkbox" id="accepted" />
+
+<div class="panel card">
+  <div class="yes-badge">💍 Yes!</div>
+  <div class="subtitle">To my one and only</div>
+  <div class="name">[Their Name Here]</div>
+  <div class="small">Say "yes" and let the adventure begin.</div>
+
+  <div class="reply" style="margin-top:18px;line-height:1.6">
+    <strong>With all my heart:</strong>
+    <p style="margin:8px 0 0 0;opacity:0.95">I promise to be by your side — through laughter, quiet mornings, and every dream. Let's build forever together.</p>
+  </div>
+
+  <!-- decorative floating hearts -->
+  <div class="float-hearts" aria-hidden>
+    <svg viewBox="0 0 24 24" fill="#ff6b81"><path d="M12 21s-7.5-4.9-9.5-8.1C-0.3 7.8 4.1 3 7.8 5.3 9.5 6.6 10 8.8 12 10.2c2-1.4 2.5-3.6 4.2-4.9 3.7-2.3 8.1 2.5 5.3 7.6C19.5 16.1 12 21 12 21z"/></svg>
+    <svg viewBox="0 0 24 24" fill="#ffd166"><path d="M12 21s-7.5-4.9-9.5-8.1C-0.3 7.8 4.1 3 7.8 5.3 9.5 6.6 10 8.8 12 10.2c2-1.4 2.5-3.6 4.2-4.9 3.7-2.3 8.1 2.5 5.3 7.6C19.5 16.1 12 21 12 21z"/></svg>
+    <svg viewBox="0 0 24 24" fill="#9be7ff"><path d="M12 21s-7.5-4.9-9.5-8.1C-0.3 7.8 4.1 3 7.8 5.3 9.5 6.6 10 8.8 12 10.2c2-1.4 2.5-3.6 4.2-4.9 3.7-2.3 8.1 2.5 5.3 7.6C19.5 16.1 12 21 12 21z"/></svg>
+  </div>
+
+  <!-- confetti pieces (pure CSS method using multiple shadows) -->
+  <div class="confetti" aria-hidden>
+    <div class="piece c1"></div>
+    <div class="piece c2"></div>
+    <div class="piece c3"></div>
+    <div class="piece c4"></div>
+  </div>
+
+</div>
+
+  </div>  <script>
+    // small enhancement: when the label is clicked, toggle the checkbox (supports keyboard too)
+    document.querySelector('label[for="accepted"]').addEventListener('click',function(){
+      const cb = document.getElementById('accepted');
+      setTimeout(()=>{ cb.checked = !cb.checked; cb.dispatchEvent(new Event('change')) }, 10);
+    });
+  </script></body>
+</html>
