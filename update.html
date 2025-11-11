@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Will you marry me?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #0f172a;
+      --bg2: #512b6a;
+      --accent: #ff6b81;
+      --accent2: #ffd166;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html,body{min-height:100%;}
+    body{
+      font-family:Inter, system-ui;
+      background:linear-gradient(160deg,var(--bg1),var(--bg2));
+      display:flex;justify-content:center;align-items:flex-start;
+      padding:40px 16px;color:#fff;overflow-y:auto;
+    }
+
+    .card-wrap{
+      width:min(920px,96%);
+      display:grid;grid-template-columns:1fr 420px;gap:28px;
+      align-items:center;margin:40px 0;
+    }
+
+    .panel{
+      background:rgba(255,255,255,0.05);
+      border-radius:20px;padding:32px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.4);
+      backdrop-filter:blur(6px);
+    }
+    .left{position:relative;padding:40px;}
+    .ring{position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;
+      background:conic-gradient(from 120deg,var(--accent),transparent);filter:blur(30px);opacity:0.8;}
+    h1{font-family:'Great Vibes',cursive;font-size:60px;color:var(--accent);margin-bottom:12px;}
+    .lead{opacity:0.9;font-size:18px;margin-bottom:24px;}
+    .heart svg{width:120px;height:120px;}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;}
+    .btn{
+      border:none;border-radius:12px;padding:12px 18px;font-weight:600;cursor:pointer;
+      transition:.2s;box-shadow:0 6px 16px rgba(0,0,0,0.4);
+    }
+    .btn-yes{background:linear-gradient(135deg,var(--accent),#ff8aa3);color:#fff;}
+    .btn-no{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;}
+    .btn:active{transform:translateY(2px);}
+    
+    /* --- Right panel --- */
+    .card{
+      background:rgba(255,255,255,0.04);
+      border-radius:20px;padding:28px;text-align:center;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      position:relative;overflow:hidden;min-height:360px;
+      transition:.4s ease;
+    }
+    .name{font-family:'Great Vibes',cursive;font-size:40px;color:var(--accent2);}
+    .subtitle{font-weight:600;opacity:0.9;}
+    .small{font-size:13px;opacity:0.8;}
+
+    input#accepted{display:none;}
+    /* when yes clicked */
+    input#accepted:checked + .card .confetti{opacity:1;}
+    input#accepted:checked + .card .yes-badge{transform:scale(1);opacity:1;}
+    input#accepted:checked + .card .reply{transform:translateY(0);opacity:1;}
+
+    .yes-badge{
+      width:160px;height:160px;border-radius:50%;display:grid;place-items:center;
+      background:radial-gradient(circle at 30% 20%,#fff6e5,#ffd166);
+      color:#6b2f17;font-size:26px;font-weight:700;
+      box-shadow:0 20px 40px rgba(255,209,102,0.2);
+      transform:scale(0.8);opacity:0;transition:all .6s cubic-bezier(.2,.9,.3,1);
+    }
+    .reply{margin-top:18px;line-height:1.6;opacity:0;transform:translateY(20px);
+      transition:all .6s cubic-bezier(.2,.9,.3,1);}
+    .confetti{position:absolute;inset:0;opacity:0;pointer-events:none;transition:.3s;}
+    .confetti .piece{position:absolute;left:50%;top:30%;width:6px;height:12px;border-radius:2px;animation:fall 1.5s ease-in forwards;opacity:0.9;}
+    .piece.c1{background:#ff6b81;box-shadow:-220px 260px #ff6b81,160px 200px #ff6b81,-50px 360px #ff6b81;}
+    .piece.c2{background:#ffd166;box-shadow:-200px 300px #ffd166,120px 180px #ffd166,10px 280px #ffd166;}
+    .piece.c3{background:#9be7ff;box-shadow:-180px 260px #9be7ff,200px 240px #9be7ff,60px 340px #9be7ff;}
+    @keyframes fall{0%{transform:translateY(-20px)}100%{transform:translateY(520px)}}
+    
+    @media(max-width:880px){
+      .card-wrap{grid-template-columns:1fr;}
+      h1{text-align:center;font-size:48px;}
+      .left{text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card-wrap">
+    <div class="panel left">
+      <div class="ring"></div>
+      <h1>Will you marry me?</h1>
+      <p class="lead">I've loved you through every small moment — would you make every moment from now on ours, forever?</p>
+      <div class="heart">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.9-9.5-8.1C-0.3 7.8 4.1 3 7.8 5.3C9.5 6.6 10 8.8 12 10.2C14 8.8 14.5 6.6 16.2 5.3C19.9 3 24.3 7.8 21.5 12.9C19.5 16.1 12 21 12 21z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#ff8aa3"/><stop offset="1" stop-color="#ff6b81"/></linearGradient></defs></svg>
+      </div>
+      <div class="actions">
+        <label for="accepted" class="btn btn-yes">Yes, a thousand times 💖</label>
+        <button class="btn btn-no" onclick="alert('It\'s okay — maybe later 💙')">Maybe later</button>
+      </div>
+    </div>
+
+    <!-- ✅ Checkbox must be before .card for CSS to work -->
+    <input type="checkbox" id="accepted" />
+    <div class="panel card">
+      <div class="yes-badge">💍 Yes!</div>
+      <div class="subtitle">To my one and only</div>
+      <div class="name">Ekta 💖</div>
+      <div class="small">Say "yes" and let the adventure begin.</div>
+
+      <div class="reply">
+        <strong>With all my heart:</strong>
+        <p>I promise to be by your side — through laughter, quiet mornings, and every dream. Let's build forever together.</p>
+      </div>
+
+      <div class="confetti">
+        <div class="piece c1"></div>
+        <div class="piece c2"></div>
+        <div class="piece c3"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
